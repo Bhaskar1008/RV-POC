@@ -4,34 +4,74 @@
       {{ status === 'Total Policies' ? 'All Policies' : status }} Details
     </v-card-title>
     
-    <TableHeader
-      v-model="tableState"
-      :has-selected-items="selectedItems.length > 0"
-      :bulk-actions="bulkActions"
-      @apply="applyBulkAction"
-      @download="downloadSelected"
-    />
+    <v-row class="px-4 py-2" align="center">
+      <v-col cols="4">
+        <v-text-field
+          v-model="search"
+          label="Search by Policy Number, Customer Name, Registration Number"
+          density="comfortable"
+          hide-details
+          append-inner-icon="mdi-magnify"
+          variant="outlined"
+          class="mb-2"
+        ></v-text-field>
+      </v-col>
+
+      <v-col cols="3">
+        <v-select
+          v-model="selectedBulkAction"
+          :items="bulkActions"
+          label="Bulk Actions"
+          :disabled="!selectedItems.length"
+          density="comfortable"
+        ></v-select>
+      </v-col>
+      
+      <v-col cols="2">
+        <v-btn
+          color="primary"
+          :disabled="!selectedItems.length || !selectedBulkAction"
+          @click="applyBulkAction"
+          size="small"
+        >
+          Apply
+        </v-btn>
+      </v-col>
+
+      <v-col cols="3" class="text-right">
+        <v-btn
+          color="success"
+          :disabled="!selectedItems.length"
+          @click="downloadSelected"
+          size="small"
+          prepend-icon="mdi-download"
+        >
+          Download Selected
+        </v-btn>
+      </v-col>
+    </v-row>
 
     <v-data-table
       v-model="selectedItems"
       :headers="headers"
       :items="filteredPolicyData"
       :items-per-page="10"
+      :search="search"
       show-select
       class="elevation-0"
     >
-      <template v-slot:item.policyNumber="{ item }">
+      <template v-slot:item.TXT_POLICY_NO="{ item }">
         <template v-if="isModifiableStatus(item.raw.status)">
           <a 
             href="#" 
             @click.prevent="openPanel(item.raw)"
             class="text-decoration-none text-primary"
           >
-            {{ item.raw.policyNumber }}
+            {{ item.raw.TXT_POLICY_NO }}
           </a>
         </template>
         <template v-else>
-          {{ item.raw.policyNumber }}
+          {{ item.raw.TXT_POLICY_NO }}
         </template>
       </template>
 
@@ -74,27 +114,17 @@
 
 <script>
 import { ref, watch, onMounted, computed } from 'vue'
-import TableHeader from './TableHeader.vue'
 import ModificationPanel from './ModificationPanel.vue'
 import ApprovalPanel from './ApprovalPanel.vue'
 import { tableHeaders, bulkActions } from './TableColumns'
 import { exportToExcel } from '../../utils/excelExport'
-import {
-  generateBatchId,
-  generatePolicyNumber,
-  generateDate,
-  generateCustomerName,
-  generateRegistrationNumber,
-  generateFailedResponse,
-  generateRemarks
-} from '../../utils/dataGenerators'
+import { generatePolicyData } from '../../utils/dataGenerators'
 import { POLICY_STATUSES } from '../../constants/policyStatuses'
 import { saveAs } from 'file-saver'
 
 export default {
   name: 'PolicyTable',
   components: {
-    TableHeader,
     ModificationPanel,
     ApprovalPanel
   },
@@ -107,28 +137,26 @@ export default {
     lobName: {
       type: String,
       required: true,
-      default: 'CommercialVehicleGCV'
+      default: 'Motor'
     }
   },
   setup(props) {
     const headers = tableHeaders
     const policyData = ref([])
     const selectedItems = ref([])
-    const tableState = ref({
-      bulkAction: null,
-      search: ''
-    })
+    const search = ref('')
+    const selectedBulkAction = ref(null)
     const showModificationPanel = ref(false)
     const showApprovalPanel = ref(false)
     const selectedPolicy = ref({})
 
     const filteredPolicyData = computed(() => {
-      if (!tableState.value.search) return policyData.value
+      if (!search.value) return policyData.value
       
-      const searchTerm = tableState.value.search.toLowerCase()
+      const searchTerm = search.value.toLowerCase()
       return policyData.value.filter(item => 
-        item.policyNumber.toLowerCase().includes(searchTerm) ||
-        item.customerName.toLowerCase().includes(searchTerm)
+        item.TXT_POLICY_NO.toLowerCase().includes(searchTerm) ||
+        item.TXT_REGISTRATIONNUMBER.toLowerCase().includes(searchTerm)
       )
     })
 
@@ -146,33 +174,21 @@ export default {
       const data = []
 
       for (let i = 0; i < count; i++) {
-        const startDate = generateDate()
-        const endDate = generateDate(new Date(startDate))
-        
+        const policyDetails = generatePolicyData()
         data.push({
-          batchId: generateBatchId(),
-          policyNumber: generatePolicyNumber(),
-          expirationDate: endDate,
-          productName: props.lobName,
-          customerName: generateCustomerName(),
-          startDate: startDate,
-          endDate: endDate,
-          workflowStatus: props.status === POLICY_STATUSES.ALL.label 
+          ...policyDetails,
+          batchId: `BATCH${Math.random().toString(36).substring(7).toUpperCase()}`,
+          status: props.status === POLICY_STATUSES.ALL.label 
             ? Object.values(POLICY_STATUSES)[Math.floor(Math.random() * (Object.values(POLICY_STATUSES).length - 1)) + 1].label 
             : props.status,
-          status: props.status === POLICY_STATUSES.ALL.label
-            ? Object.values(POLICY_STATUSES)[Math.floor(Math.random() * (Object.values(POLICY_STATUSES).length - 1)) + 1].label
-            : props.status,
-          remarks: generateRemarks(props.status),
-          registrationNumber: generateRegistrationNumber(props.lobName),
-          failedResponse: props.status.includes('FAILED') ? generateFailedResponse() : '',
+          workflowStatus: props.status,
           eaqCaq: props.status === 'RENEWED' || props.status === 'RN-GENERATED'
         })
       }
 
       policyData.value = data
       selectedItems.value = []
-      tableState.value.bulkAction = null
+      selectedBulkAction.value = null
     }
 
     const isModifiableStatus = (status) => {
@@ -191,7 +207,7 @@ export default {
 
     const handleModificationConfirm = (changes) => {
       const index = policyData.value.findIndex(
-        policy => policy.policyNumber === selectedPolicy.value.policyNumber
+        policy => policy.TXT_POLICY_NO === selectedPolicy.value.TXT_POLICY_NO
       )
       if (index !== -1) {
         policyData.value[index] = {
@@ -205,7 +221,7 @@ export default {
 
     const handleApprovalDecision = ({ policyNumber, decision }) => {
       const index = policyData.value.findIndex(
-        policy => policy.policyNumber === policyNumber
+        policy => policy.TXT_POLICY_NO === policyNumber
       )
       if (index !== -1) {
         const newStatus = decision === 'approved' 
@@ -221,34 +237,31 @@ export default {
     }
 
     const applyBulkAction = () => {
-      if (!tableState.value.bulkAction || !selectedItems.value.length) return
+      if (!selectedBulkAction.value || !selectedItems.value.length) return
       
       selectedItems.value.forEach(item => {
         const index = policyData.value.findIndex(policy => policy.batchId === item.batchId)
         if (index !== -1) {
-          policyData.value[index].status = tableState.value.bulkAction
-          policyData.value[index].workflowStatus = tableState.value.bulkAction
+          policyData.value[index].status = selectedBulkAction.value
+          policyData.value[index].workflowStatus = selectedBulkAction.value
         }
       })
 
       selectedItems.value = []
-      tableState.value.bulkAction = null
+      selectedBulkAction.value = null
     }
 
     const downloadSelected = () => {
       if (!selectedItems.value.length) return
-      
       const selectedPolicies = selectedItems.value.map(item => {
         const policy = policyData.value.find(p => p.batchId === item.batchId)
         return policy
       })
-
       const filename = `policies_${new Date().toISOString().split('T')[0]}.xlsx`
       exportToExcel(selectedPolicies, filename)
     }
 
     const downloadPDF = (batchId) => {
-      // Simulated PDF download
       const blob = new Blob(['Sample PDF content'], { type: 'application/pdf' })
       saveAs(blob, `policy_${batchId}.pdf`)
     }
@@ -263,7 +276,8 @@ export default {
       policyData,
       filteredPolicyData,
       selectedItems,
-      tableState,
+      search,
+      selectedBulkAction,
       bulkActions,
       showModificationPanel,
       showApprovalPanel,

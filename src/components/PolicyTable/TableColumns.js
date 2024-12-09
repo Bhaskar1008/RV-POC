@@ -1,16 +1,18 @@
 export const tableHeaders = [
   { title: 'Batch ID', key: 'batchId', sortable: true },
-  { title: 'Policy Number', key: 'policyNumber', sortable: true },
-  { title: 'Expiration Date', key: 'expirationDate', sortable: true },
-  { title: 'Product Name', key: 'productName', sortable: true },
-  { title: 'Customer Name', key: 'customerName', sortable: true },
-  { title: 'Start Date', key: 'startDate', sortable: true },
-  { title: 'End Date', key: 'endDate', sortable: true },
+  { title: 'Policy Number', key: 'TXT_POLICY_NO', sortable: true },
+  { title: 'Renewal Start Date', key: 'DAT_RENEWAL_INCEPTION_DATE', sortable: true },
+  { title: 'Renewal End Date', key: 'DAT_RENEWAL_EXPIRY_DATE', sortable: true },
+  { title: 'Customer Type', key: 'TXT_CUSTOMERTYPE', sortable: true },
+  { title: 'Product Name', key: 'TXT_PRODUCT_NAME', sortable: true },
+  { title: 'Vehicle Make', key: 'TXT_VEICHLE_MAKE_NAME', sortable: true },
+  { title: 'Vehicle Model', key: 'TXT_VEICHLE_MOD_NAME', sortable: true },
+  { title: 'Registration Date', key: 'DAT_DATEOFREGISTRATION', sortable: true },
+  { title: 'Registration Number', key: 'TXT_REGISTRATIONNUMBER', sortable: true },
   { title: 'Workflow Status', key: 'workflowStatus', sortable: true },
   { title: 'Status', key: 'status', sortable: true },
-  { title: 'Remarks', key: 'remarks', sortable: true },
-  { title: 'Registration Number', key: 'registrationNumber', sortable: true },
-  { title: 'Failed Response', key: 'failedResponse', sortable: true },
+  { title: 'NCB %', key: 'NUM_PREVIOUSYEARNCB', sortable: true },
+  { title: 'IDV', key: 'NUM_USERVEHICLEIDV', sortable: true },
   { title: 'EAQ/CAQ', key: 'eaqCaq', sortable: false }
 ]
 

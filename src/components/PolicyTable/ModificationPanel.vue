@@ -3,12 +3,12 @@
     :model-value="modelValue"
     @update:model-value="$emit('update:modelValue', $event)"
     location="right"
-    width="600"
+    width="800"
     temporary
   >
     <v-card flat>
       <v-toolbar color="primary" dark>
-        <v-toolbar-title>Policy Modification - {{ policyData.policyNumber }}</v-toolbar-title>
+        <v-toolbar-title>Policy Modification - {{ policyData.TXT_POLICY_NO }}</v-toolbar-title>
         <template v-slot:append>
           <v-btn icon="mdi-close" variant="text" @click="$emit('update:modelValue', false)"></v-btn>
         </template>
@@ -83,11 +83,28 @@ export default {
     return {
       modifications: {},
       modifiableFields: [
-        { column: 'POLICY_NUMBER', key: 'policyNumber' },
-        { column: 'CUSTOMER_NAME', key: 'customerName' },
-        { column: 'START_DATE', key: 'startDate' },
-        { column: 'END_DATE', key: 'endDate' },
-        { column: 'REGISTRATION_NUMBER', key: 'registrationNumber' }
+        { column: 'TXT_POLICY_NO', key: 'TXT_POLICY_NO' },
+        { column: 'DAT_RENEWAL_INCEPTION_DATE', key: 'DAT_RENEWAL_INCEPTION_DATE' },
+        { column: 'DAT_RENEWAL_EXPIRY_DATE', key: 'DAT_RENEWAL_EXPIRY_DATE' },
+        { column: 'TXT_CUSTOMERTYPE', key: 'TXT_CUSTOMERTYPE' },
+        { column: 'TXT_PRODUCT_NAME', key: 'TXT_PRODUCT_NAME' },
+        { column: 'TXT_POLICY_VARIANT', key: 'TXT_POLICY_VARIANT' },
+        { column: 'TXT_VEICHLE_MAKE_NAME', key: 'TXT_VEICHLE_MAKE_NAME' },
+        { column: 'TXT_VEICHLE_MOD_NAME', key: 'TXT_VEICHLE_MOD_NAME' },
+        { column: 'TXT_VARIANT', key: 'TXT_VARIANT' },
+        { column: 'NUM_VEICHLE_MAKE_YR', key: 'NUM_VEICHLE_MAKE_YR' },
+        { column: 'TXT_FUEL_TYPE', key: 'TXT_FUEL_TYPE' },
+        { column: 'TXT_RTO_LOC', key: 'TXT_RTO_LOC' },
+        { column: 'DAT_DATEOFREGISTRATION', key: 'DAT_DATEOFREGISTRATION' },
+        { column: 'TXT_REGISTRATIONNUMBER', key: 'TXT_REGISTRATIONNUMBER' },
+        { column: 'TXT_ENGINE_NO', key: 'TXT_ENGINE_NO' },
+        { column: 'TXT_CHAIS_NO', key: 'TXT_CHAIS_NO' },
+        { column: 'NUM_CUBIC_CAPACITY', key: 'NUM_CUBIC_CAPACITY' },
+        { column: 'NUM_SEATINGCAPACITY', key: 'NUM_SEATINGCAPACITY' },
+        { column: 'NUM_PREVIOUSYEARNCB', key: 'NUM_PREVIOUSYEARNCB' },
+        { column: 'NUM_BODY_PRICE', key: 'NUM_BODY_PRICE' },
+        { column: 'NUM_EXSHOWROOMPRICE', key: 'NUM_EXSHOWROOMPRICE' },
+        { column: 'NUM_USERVEHICLEIDV', key: 'NUM_USERVEHICLEIDV' }
       ]
     }
   },
