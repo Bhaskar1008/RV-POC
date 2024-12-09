@@ -98,11 +98,23 @@ const generateLOBData = (dateRange) => {
   const labels = ['Motor GCV', 'Motor MCV', 'Motor PCV', 'Medicare', 'Travel Guard']
   return {
     labels,
-    datasets: [{
-      label: 'Renewals',
-      data: labels.map(() => generateRandomNumber(40, 100)),
-      backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#9C27B0', '#FF5722']
-    }]
+    datasets: [
+      {
+        label: 'Renewals',
+        data: labels.map(() => generateRandomNumber(40, 100)),
+        backgroundColor: ['#4CAF50', '#2196F3', '#FFC107', '#9C27B0', '#FF5722']
+      },
+      {
+        label: 'Endorsement',
+        data: labels.map(() => generateRandomNumber(40, 100)),
+        backgroundColor: ['#00BCD4', '#8BC34A', '#FF9800', '#FF5722', '#607D8B']
+      },
+      {
+        label: 'Renewed-Failed',
+        data: labels.map(() => generateRandomNumber(40, 100)),
+        backgroundColor: ['#FF6347', '#8B0000', '#FFD700', '#A52A2A', '#800080']
+      }
+    ]    
   }
 }
 
