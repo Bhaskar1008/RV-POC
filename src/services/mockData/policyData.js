@@ -1,0 +1,26 @@
+import { POLICY_STATUSES } from '../../constants/policyStatuses'
+
+export const policyData = {
+  dateRange: {
+    from: '2023-Aug-07',
+    to: '2023-Nov-07'
+  },
+  policyCards: [
+    { id: POLICY_STATUSES.ALL.id, count: '125000', status: POLICY_STATUSES.ALL.label, color: POLICY_STATUSES.ALL.color },
+    { id: POLICY_STATUSES.BRE_PENDING.id, count: '35000', status: POLICY_STATUSES.BRE_PENDING.label, color: POLICY_STATUSES.BRE_PENDING.color },
+    { id: POLICY_STATUSES.BRE_SUCCESS.id, count: '28000', status: POLICY_STATUSES.BRE_SUCCESS.label, color: POLICY_STATUSES.BRE_SUCCESS.color },
+    { id: POLICY_STATUSES.BRE_FAILED.id, count: '12000', status: POLICY_STATUSES.BRE_FAILED.label, color: POLICY_STATUSES.BRE_FAILED.color },
+    { id: POLICY_STATUSES.PT_MODIFICATION_QUEUE.id, count: '15000', status: POLICY_STATUSES.PT_MODIFICATION_QUEUE.label, color: POLICY_STATUSES.PT_MODIFICATION_QUEUE.color },
+    { id: POLICY_STATUSES.RETENTION_APPROVAL_QUEUE.id, count: '8000', status: POLICY_STATUSES.RETENTION_APPROVAL_QUEUE.label, color: POLICY_STATUSES.RETENTION_APPROVAL_QUEUE.color },
+    { id: POLICY_STATUSES.COMMUNICATION_QUEUE.id, count: '7000', status: POLICY_STATUSES.COMMUNICATION_QUEUE.label, color: POLICY_STATUSES.COMMUNICATION_QUEUE.color },
+    { id: POLICY_STATUSES.RN_GENERATED.id, count: '6000', status: POLICY_STATUSES.RN_GENERATED.label, color: POLICY_STATUSES.RN_GENERATED.color },
+    { id: POLICY_STATUSES.RENEWED.id, count: '5000', status: POLICY_STATUSES.RENEWED.label, color: POLICY_STATUSES.RENEWED.color },
+    { id: POLICY_STATUSES.LAPSED.id, count: '5500', status: POLICY_STATUSES.LAPSED.label, color: POLICY_STATUSES.LAPSED.color },
+    { id: POLICY_STATUSES.DECLINED.id, count: '3500', status: POLICY_STATUSES.DECLINED.label, color: POLICY_STATUSES.DECLINED.color }
+  ],
+  lobList: [
+    { NUM_IL_PRODUCT_NAME: 'CommercialVehicleGCV', NUM_IL_PRODUCT_CODE: 105871 },
+    { NUM_IL_PRODUCT_NAME: 'PrivateVehicle', NUM_IL_PRODUCT_CODE: 105872 },
+    { NUM_IL_PRODUCT_NAME: 'TwoWheeler', NUM_IL_PRODUCT_CODE: 105873 }
+  ]
+}
