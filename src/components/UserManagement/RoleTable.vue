@@ -14,7 +14,7 @@
     </v-card-title>
     <v-card-text v-show="!isRolesCollapsed">
       <v-data-table :headers="headers" :items="roles" density="compact" hover>
-        <template #item.value="{ item }">
+        <template #item.actions="{ item }">
           <v-btn color="primary" @click="openAccessModal(item)">Module Access</v-btn>
         </template>
       </v-data-table>
@@ -118,8 +118,8 @@ const automationBucket = ref(null);
 const manualModule = ref(null);
 
 // Data
-const buckets = ['Bucket A', 'Bucket B', 'Bucket C'];
-const modules = ['Module X', 'Module Y', 'Module Z'];
+const buckets = ['BRE-PENDING', 'BRE-SUCCESS', 'BRE-FAILED'];
+const modules = ['Collection & Processing', 'Renewal Notice Generation', 'Renewal Vault Dashboard'];
 
 // Methods
 const openAccessModal = (role) => {

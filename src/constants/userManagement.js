@@ -21,7 +21,8 @@ export const roleTableHeaders = [
   { title: 'Role Name', key: 'name' },
   { title: 'Role Description', key: 'description' },
   { title: 'LOB Assigned', key: 'lob' },
-  { title: 'Users Assigned', key: 'usersAssigned' }
+  { title: 'Users Assigned', key: 'usersAssigned' },
+  {title:'Actions', key:'actions'}
 ]
 
 export const moduleAccessHeaders = [
