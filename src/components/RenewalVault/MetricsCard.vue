@@ -1,21 +1,20 @@
 <template>
-  <v-card class="metric-card" elevation="2">
-    <v-card-text>
+  <v-card class="metric-card" elevation="1">
+    <v-card-text class="pa-3">
       <div class="d-flex justify-space-between align-center">
         <div>
-          <div class="text-h4 font-weight-bold">{{ formatValue(metric.value) }}</div>
-          <div class="text-subtitle-1 mt-2">{{ metric.label }}</div>
+          <div class="text-h6 font-weight-bold">{{ formatValue(metric.value) }}</div>
+          <div class="text-caption mt-1">{{ metric.label }}</div>
         </div>
-        <v-icon :color="getTrendColor" size="x-large">
+        <v-icon :color="getTrendColor" size="large">
           {{ getTrendIcon }}
         </v-icon>
       </div>
-      <v-divider class="my-3"></v-divider>
-      <div class="d-flex align-center">
+      <div class="d-flex align-center mt-2">
         <span :class="['percentage', getTrendColor + '--text']">
           {{ metric.percentage }}%
         </span>
-        <span class="ml-2 text-caption">vs last month</span>
+        <span class="text-caption ml-2">vs last month</span>
       </div>
     </v-card-text>
   </v-card>
@@ -53,11 +52,11 @@ const formatValue = (value) => {
 }
 
 .metric-card:hover {
-  transform: translateY(-5px);
+  transform: translateY(-2px);
 }
 
 .percentage {
-  font-weight: bold;
-  font-size: 1.1em;
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 </style>
