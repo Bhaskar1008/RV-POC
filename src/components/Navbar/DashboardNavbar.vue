@@ -17,13 +17,31 @@
     </v-app-bar-title>
 
     <template v-slot:append>
-      <v-btn icon="mdi-dots-vertical"></v-btn>
+      <v-menu>
+        <template v-slot:activator="{ props }">
+          <v-btn icon v-bind="props">
+            <v-icon>mdi-account-circle</v-icon>
+          </v-btn>
+        </template>
+        <v-list>
+          <v-list-item>
+            <v-list-item-title>{{ authStore.user?.name }}</v-list-item-title>
+            <v-list-item-subtitle>{{ authStore.user?.email }}</v-list-item-subtitle>
+          </v-list-item>
+          <v-divider></v-divider>
+          <v-list-item @click="authStore.logout">
+            <v-list-item-title>Logout</v-list-item-title>
+          </v-list-item>
+        </v-list>
+      </v-menu>
     </template>
   </v-app-bar>
 </template>
 
 <script setup>
 import { useNavigationStore } from '../../stores/navigation'
+import { useAuthStore } from '../../stores/auth'
 
 const navigationStore = useNavigationStore()
+const authStore = useAuthStore()
 </script>

@@ -13,7 +13,8 @@
           show-select
           density="compact"
           hover
-        />
+        >
+        </v-data-table>
       </div>
 
       <div>
@@ -25,7 +26,8 @@
           show-select
           density="compact"
           hover
-        />
+        >
+        </v-data-table>
       </div>
     </v-card-text>
   </v-card>
@@ -46,4 +48,25 @@ defineProps({
     required: true
   }
 })
+
+const headers = [
+  { text: 'Module Name', align: 'start', key: 'name', sortable: true },
+  { text: 'Description', key: 'description', sortable: false }
+]
+
+// Example data for automation and manual modules
+const automationModules = [
+  { id: 'BRE-PENDING', name: 'BRE-PENDING', description: 'Pending BRE status' },
+  { id: 'BRE-SUCCESS', name: 'BRE-SUCCESS', description: 'Successful BRE completion' },
+  { id: 'BRE-FAILED', name: 'BRE-FAILED', description: 'Failed BRE status' },
+  { id: 'PT-MODIFICATION QUEUE', name: 'PT-MODIFICATION QUEUE', description: 'Queue for PT modifications' },
+  { id: 'RETENTION-APPROVAL-QUEUE', name: 'RETENTION-APPROVAL-QUEUE', description: 'Queue for retention approval' },
+  { id: 'RN-GENERATED', name: 'RN-GENERATED', description: 'Generated Renewal Notice' }
+]
+
+const manualModules = [
+  { id: 'Collection & Processing', name: 'Collection & Processing', description: 'Collection and processing modules' },
+  { id: 'Renewal Notice Generation', name: 'Renewal Notice Generation', description: 'Modules for generating renewal notices' },
+  { id: 'Renewal Vault Dashboard', name: 'Renewal Vault Dashboard', description: 'Dashboard for the renewal vault' }
+]
 </script>
