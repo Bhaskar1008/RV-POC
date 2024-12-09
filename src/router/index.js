@@ -10,12 +10,24 @@ const router = createRouter({
       component: PolicySummary
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
+      path: '/collections',
+      name: 'collections',
+      component: () => import('../views/CollectionsView.vue')
+    },
+    {
+      path: '/renewal-notice',
+      name: 'renewal-notice',
+      component: () => import('../views/RenewalNoticeView.vue')
+    },
+    {
+      path: '/renewal-vault',
+      name: 'renewal-vault',
+      component: () => import('../views/RenewalVaultView.vue')
+    },
+    {
+      path: '/user-management',
+      name: 'user-management',
+      component: () => import('../views/UserManagementView.vue')
     }
   ]
 })

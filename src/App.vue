@@ -1,12 +1,15 @@
 <script setup>
-// import {  RouterView } from 'vue-router'
 import DashboardNavbar from './components/Navbar/DashboardNavbar.vue'
+import NavigationDrawer from './components/Sidebar/NavigationDrawer.vue'
 </script>
 
 <template>
-  <v-layout >
+  <v-layout>
+    <NavigationDrawer />
     <DashboardNavbar />
-    <v-main> <RouterView /> </v-main>
+    <v-main>
+      <RouterView />
+    </v-main>
   </v-layout>
 </template>
 
@@ -67,7 +70,6 @@ nav a:first-of-type {
     text-align: left;
     margin-left: -1rem;
     font-size: 1rem;
-
     padding: 1rem 0;
     margin-top: 1rem;
   }
