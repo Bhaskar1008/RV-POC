@@ -1,5 +1,4 @@
 export const tableHeaders = [
-  { title: 'Batch ID', key: 'batchId', sortable: true },
   { title: 'Policy Number', key: 'TXT_POLICY_NO', sortable: true },
   { title: 'Renewal Start Date', key: 'DAT_RENEWAL_INCEPTION_DATE', sortable: true },
   { title: 'Renewal End Date', key: 'DAT_RENEWAL_EXPIRY_DATE', sortable: true },

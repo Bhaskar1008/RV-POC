@@ -59,6 +59,7 @@
       :search="search"
       show-select
       class="elevation-0"
+      item-value="TXT_POLICY_NO"
     >
       <template v-slot:item.TXT_POLICY_NO="{ item }">
         <template v-if="isModifiableStatus(item.raw.status)">
@@ -91,7 +92,7 @@
           color="primary"
           size="small"
           variant="text"
-          @click="downloadPDF(item.raw.batchId)"
+          @click="downloadPDF(item.raw.TXT_POLICY_NO)"
         >
           Download PDF
         </v-btn>
@@ -120,7 +121,7 @@ import { tableHeaders, bulkActions } from './TableColumns'
 import { exportToExcel } from '../../utils/excelExport'
 import { generatePolicyData } from '../../utils/dataGenerators'
 import { POLICY_STATUSES } from '../../constants/policyStatuses'
-import { saveAs } from 'file-saver'
+import { generatePDF } from '../../utils/pdfGenerator'
 
 export default {
   name: 'PolicyTable',
@@ -177,7 +178,6 @@ export default {
         const policyDetails = generatePolicyData()
         data.push({
           ...policyDetails,
-          batchId: `BATCH${Math.random().toString(36).substring(7).toUpperCase()}`,
           status: props.status === POLICY_STATUSES.ALL.label 
             ? Object.values(POLICY_STATUSES)[Math.floor(Math.random() * (Object.values(POLICY_STATUSES).length - 1)) + 1].label 
             : props.status,
@@ -240,7 +240,7 @@ export default {
       if (!selectedBulkAction.value || !selectedItems.value.length) return
       
       selectedItems.value.forEach(item => {
-        const index = policyData.value.findIndex(policy => policy.batchId === item.batchId)
+        const index = policyData.value.findIndex(policy => policy.TXT_POLICY_NO === item)
         if (index !== -1) {
           policyData.value[index].status = selectedBulkAction.value
           policyData.value[index].workflowStatus = selectedBulkAction.value
@@ -253,17 +253,20 @@ export default {
 
     const downloadSelected = () => {
       if (!selectedItems.value.length) return
-      const selectedPolicies = selectedItems.value.map(item => {
-        const policy = policyData.value.find(p => p.batchId === item.batchId)
-        return policy
-      })
+      const selectedPolicies = selectedItems.value.map(policyNo => {
+        return policyData.value.find(p => p.TXT_POLICY_NO === policyNo)
+      }).filter(Boolean)
+      
       const filename = `policies_${new Date().toISOString().split('T')[0]}.xlsx`
       exportToExcel(selectedPolicies, filename)
     }
 
-    const downloadPDF = (batchId) => {
-      const blob = new Blob(['Sample PDF content'], { type: 'application/pdf' })
-      saveAs(blob, `policy_${batchId}.pdf`)
+    const downloadPDF = (policyNo) => {
+      const policy = policyData.value.find(p => p.TXT_POLICY_NO === policyNo)
+      if (!policy) return
+      
+      const doc = generatePDF(policy)
+      doc.save(`policy_${policyNo}_${new Date().getTime()}.pdf`)
     }
 
     watch(() => props.status, generateTableData)

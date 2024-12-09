@@ -237,15 +237,61 @@ export default {
     }
   }
 }
-</script>
+  </script>
 
 <style scoped>
-.v-data-table {
-  margin-top: 0;
-}
+  .v-card {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 15px rgba(0, 0, 0, 0.15); /* Soft shadow for a modern look */
+  }
 
-.v-card-title {
-  background-color: #f5f5f5;
-  border-bottom: 1px solid #e0e0e0;
-}
+  .v-card-title {
+    background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%); /* Gradient background */
+    color: white;
+    font-weight: 600; /* Bold text for emphasis */
+    font-size: 1.25rem; /* Slightly larger text for readability */
+    padding: 16px;
+    text-align: center;
+    border-bottom: 2px solid #fff; /* White border for contrast */
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Light shadow to enhance readability */
+  }
+
+  .v-row {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 16px;
+    margin-top: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Light shadow for the row */
+  }
+
+  .v-btn {
+    transition: all 0.3s ease;
+  }
+
+  .v-btn:hover {
+    transform: translateY(-2px); /* Subtle hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Stronger shadow on hover */
+  }
+
+  .v-select .v-input__control {
+    border-radius: 4px;
+    background-color: #fff;
+  }
+
+  .v-text-field {
+    border-radius: 4px;
+  }
+
+  .v-chip {
+    font-weight: 500;
+  }
+
+  .v-data-table {
+    margin-top: 16px;
+  }
+
+  .elevation-0 {
+    box-shadow: none !important; /* Remove default elevation */
+  }
 </style>

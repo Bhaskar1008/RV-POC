@@ -13,6 +13,8 @@
     "@mdi/font": "^7.2.96",
     "date-fns": "^2.30.0",
     "file-saver": "^2.0.5",
+    "jspdf": "^2.5.1",
+    "jspdf-autotable": "^3.7.1",
     "xlsx": "^0.18.5",
     "vue": "^3.3.4",
     "vue-router": "^4.2.4",
