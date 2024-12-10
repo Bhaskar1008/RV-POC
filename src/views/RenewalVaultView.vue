@@ -164,7 +164,7 @@ const products = [
   { title: 'PCV', value: 'PCV' }
 ]
 
-const dateRanges = ['Q1 - FY2023', 'Q2 - FY2023', 'Q3 - FY2023', 'Q4 - FY2023']
+const dateRanges = ['Q1 - FY2024', 'Q2 - FY2024', 'Q3 - FY2024', 'Q4 - FY2024']
 
 // Dynamic Data
 const metrics = ref([])
