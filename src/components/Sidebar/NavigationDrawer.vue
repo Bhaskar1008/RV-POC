@@ -47,7 +47,7 @@ const navigationItems = [
   {
     title: 'Renewal Cases',
     icon: 'mdi-view-dashboard',
-    to: '/'
+    to: '/renewalcases'
   },
   {
     title: 'Collections & Processing',
@@ -67,7 +67,7 @@ const navigationItems = [
   {
     title: 'Renewal Vault Dashboard',
     icon: 'mdi-chart-line',
-    to: '/renewal-vault'
+    to: '/'
   },
   {
     title: 'User Management',

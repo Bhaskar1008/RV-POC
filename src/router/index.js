@@ -13,7 +13,7 @@ const router = createRouter({
       meta: { requiresAuth: false }
     },
     {
-      path: '/',
+      path: '/renewalcases',
       name: 'policy-summary',
       component: PolicySummary,
       meta: { requiresAuth: true }
@@ -37,7 +37,7 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
-      path: '/renewal-vault',
+      path: '/',
       name: 'renewal-vault',
       component: () => import('../views/RenewalVaultView.vue'),
       meta: { requiresAuth: true }
