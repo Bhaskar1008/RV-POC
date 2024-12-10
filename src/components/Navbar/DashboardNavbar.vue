@@ -13,7 +13,7 @@
     ></v-divider>
 
     <v-app-bar-title>
-      <img src="../../assets/logo/iorta-logo.svg" style="width: 155px; margin-top: 3px" />
+      <img src="../../assets/logo/renewalvaultlogo.png" style="width: 155px; margin-top: 3px" />
     </v-app-bar-title>
 
     <template v-slot:append>
