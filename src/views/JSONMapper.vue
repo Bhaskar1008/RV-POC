@@ -1,86 +1,184 @@
 <template>
-  <div class="min-h-screen bg-gray-100">
-    <div class="max-w-4xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-      <!-- Breadcrumb -->
-      <nav class="flex mb-8" aria-label="Breadcrumb">
-        <ol class="inline-flex items-center space-x-1 md:space-x-3">
-          <li class="inline-flex items-center">
-            <a href="#" class="text-gray-700 hover:text-gray-900">Home</a>
-          </li>
-          <li>
-            <div class="flex items-center">
-              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-              </svg>
-              <a href="#" class="text-gray-700 hover:text-gray-900">JSON Mapping</a>
-            </div>
-          </li>
-          <li>
-            <div class="flex items-center">
-              <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-              </svg>
-              <span class="text-blue-600">Create New Json Mapping</span>
-            </div>
-          </li>
-        </ol>
-      </nav>
+  <v-container fluid>
+    <v-stepper v-model="currentStep" class="elevation-0">
+      <!-- Stepper Header -->
+      <!-- <v-stepper-header>
+        <v-stepper-item value="1">Upload JSON Files</v-stepper-item>
+        <v-divider></v-divider>
+        <v-stepper-item value="2">Select Schema</v-stepper-item>
+        <v-divider></v-divider>
+        <v-stepper-item value="3">Map Fields</v-stepper-item>
+        <v-divider></v-divider>
+        <v-stepper-item value="4">Generate Code</v-stepper-item>
+      </v-stepper-header> -->
 
-      <!-- Step indicator -->
-      <div class="text-center mb-8">
-        <h1 class="text-xl font-semibold text-gray-900">Step {{ currentStep }} / 3</h1>
-        <h2 class="text-lg text-blue-600 font-medium mt-2">Upload JSON - Request Mapping</h2>
-      </div>
-
-      <!-- Form Content -->
-      <div v-if="currentStep === 1">
-        <JsonForm ref="jsonForm" />
-      </div>
-
-      <div v-if="currentStep === 2">
-        <div class="grid grid-cols-3 gap-6">
-          <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h3 class="text-sm font-medium text-gray-900 mb-4">Upload Table</h3>
-            <JsonUploader @file-selected="handleTableUpload" />
+      <!-- Stepper Content -->
+      <v-stepper-items>
+        <!-- Step 1: Upload JSON Files -->
+        <v-stepper-content step="1">
+          <JsonUploader
+            v-model:request-json="requestJson"
+            v-model:arguments-json="argumentsJson"
+            @validation="handleValidation"
+          />
+          <div class="d-flex justify-end mt-4">
+            <v-btn
+              color="primary"
+              @click="nextStep"
+              :disabled="!isStep1Valid"
+            >
+              Continue
+            </v-btn>
           </div>
-          <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h3 class="text-sm font-medium text-gray-900 mb-4">Create New Table</h3>
-            <button @click="createNewTable" class="w-full h-32 border-2 border-dashed rounded-lg flex items-center justify-center text-gray-600 hover:text-gray-900">
-              Click to Create Table
-            </button>
-          </div>
-          <div class="bg-white p-6 rounded-lg shadow-sm">
-            <h3 class="text-sm font-medium text-gray-900 mb-4">Upload Json - Response Mapping</h3>
-            <JsonUploader @file-selected="handleResponseJsonUpload" />
-          </div>
-        </div>
-      </div>
+        </v-stepper-content>
 
-      <div v-if="currentStep === 3">
-        <MappingTable />
-      </div>
-    </div>
-  </div>
+        <!-- Step 2: Select Schema -->
+        <v-stepper-content step="2">
+          <SchemaSelector
+            v-model:selected-table="selectedTable"
+            v-model:table-schema="tableSchema"
+            :arguments-fields="argumentFields"
+          />
+          <div class="d-flex justify-end mt-4">
+            <v-btn
+              variant="text"
+              class="me-4"
+              @click="prevStep"
+            >
+              Back
+            </v-btn>
+            <v-btn
+              color="primary"
+              @click="nextStep"
+              :disabled="!isStep2Valid"
+            >
+              Continue
+            </v-btn>
+          </div>
+        </v-stepper-content>
+
+        <!-- Step 3: Map Fields -->
+        <v-stepper-content step="3">
+          <FieldMapper
+            v-model:mappings="fieldMappings"
+            :request-fields="requestFields"
+            :table-schema="tableSchema"
+            :arguments-fields="argumentFields"
+          />
+          <div class="d-flex justify-end mt-4">
+            <v-btn
+              variant="text"
+              class="me-4"
+              @click="prevStep"
+            >
+              Back
+            </v-btn>
+            <v-btn
+              color="primary"
+              @click="nextStep"
+              :disabled="!isStep3Valid"
+            >
+              Continue
+            </v-btn>
+          </div>
+        </v-stepper-content>
+
+        <!-- Step 4: Generate Code -->
+        <v-stepper-content step="4">
+          <CodeGenerator
+            :mappings="fieldMappings"
+            :table-schema="tableSchema"
+            :request-json="requestJson"
+            :arguments-json="argumentsJson"
+          />
+          <div class="d-flex justify-end mt-4">
+            <v-btn
+              variant="text"
+              class="me-4"
+              @click="prevStep"
+            >
+              Back
+            </v-btn>
+            <v-btn
+              color="success"
+              @click="finishMapping"
+            >
+              Finish
+            </v-btn>
+          </div>
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
+  </v-container>
 </template>
 
-<script setup lang="ts">
-import { ref } from 'vue'
-import JsonUploader from '../components/Mapper/JsonUploader.vue'
-import JsonForm from '../components/Mapper/JsonForm.vue'
-import MappingTable from '../components/Mapper/MappingTable.vue'
+<script setup>
+import { ref, computed } from 'vue'
+import JsonUploader from '../components/JsonMapper/JsonUploader.vue'
+import SchemaSelector from '../components/JsonMapper/SchemaSelector.vue'
+import FieldMapper from '../components/JsonMapper/FieldMapper.vue'
+import CodeGenerator from '../components/JsonMapper/CodeGenerator.vue'
 
+// State
 const currentStep = ref(1)
-const jsonForm = ref<InstanceType<typeof JsonForm> | null>(null)
+const requestJson = ref(null)
+const argumentsJson = ref(null)
+const selectedTable = ref(null)
+const tableSchema = ref(null)
+const fieldMappings = ref([])
 
-const handleTableUpload = (file: File) => {
-  console.log('Table file uploaded:', file)
+// Computed properties for validation
+const isStep1Valid = computed(() => requestJson.value && argumentsJson.value)
+const isStep2Valid = computed(() => selectedTable.value && tableSchema.value)
+const isStep3Valid = computed(() => fieldMappings.value.length > 0)
+
+// Computed properties for derived data
+const requestFields = computed(() => {
+  if (!requestJson.value) return []
+  return extractFields(requestJson.value)
+})
+
+const argumentFields = computed(() => {
+  if (!argumentsJson.value) return []
+  return extractFields(argumentsJson.value)
+})
+
+// Methods
+const nextStep = () => {
+  currentStep.value++
 }
 
-const handleResponseJsonUpload = (file: File) => {
-  console.log('Response JSON uploaded:', file)
+const prevStep = () => {
+  currentStep.value--
 }
 
-const createNewTable = () => {
-  console.log('Creating new table')
+const handleValidation = (isValid) => {
+  // Handle JSON validation results
+  console.log('JSON validation:', isValid)
+}
+
+const finishMapping = () => {
+  // Handle completion of mapping process
+  console.log('Mapping completed')
+}
+
+const extractFields = (json) => {
+  // Utility function to extract fields from JSON
+  try {
+    const parsed = typeof json === 'string' ? JSON.parse(json) : json
+    return Object.keys(parsed).map(key => ({
+      name: key,
+      type: typeof parsed[key]
+    }))
+  } catch (error) {
+    console.error('Error extracting fields:', error)
+    return []
+  }
 }
 </script>
+
+<style scoped>
+.v-stepper {
+  background: transparent;
+}
+</style>
