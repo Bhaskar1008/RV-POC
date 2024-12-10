@@ -4,7 +4,7 @@
       <v-col cols="7">
         <div class="d-flex pa-2">
           <span class="body-2 font-weight-bold mt-4" style="color: #1e83c2; margin-left: 20px">
-            Policy Summary -
+            Renewal Cases -
           </span>
           <span class="body-2 font-weight-bold mt-4" style="color: #e46a25; margin-left: 8px">
             {{ dateRange.from }} To {{ dateRange.to }}

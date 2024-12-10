@@ -45,7 +45,7 @@ const rail = ref(true)
 
 const navigationItems = [
   {
-    title: 'Policy Summary',
+    title: 'Renewal Cases',
     icon: 'mdi-view-dashboard',
     to: '/'
   },
@@ -56,7 +56,7 @@ const navigationItems = [
   },
   {
     title: 'API Request Mapper',
-    icon: 'mdi-account-group',
+    icon: 'mdi-code-braces',
     to: '/json-mapper'
   },
   {

@@ -83,7 +83,11 @@
 
               <!-- LOB Chart -->
               <div v-else-if="section.id === 'lob'" style="height: 300px">
-                <Bar :data="lobChartData" :options="lobChartOptions" />
+                <Bar 
+                  :data="lobChartData" 
+                  :options="lobChartOptions"
+                  @click="handleChartClick"
+                />
               </div>
 
               <!-- Batch List -->
@@ -93,23 +97,30 @@
                 :batches="batchData"
                 @download="handleBatchDownload"
               />
-              
             </v-card-text>
           </div>
         </v-expand-transition>
       </v-card>
     </div>
+
+    <!-- Insurance Product Modal -->
+    <InsuranceProductModal
+      v-model="showProductModal"
+      :product-name="selectedProduct"
+      :product-data="selectedProductData"
+    />
   </v-container>
 </template>
 
 <script setup>
-import { ref, onMounted, watch } from 'vue'
+import { ref, computed, onMounted, watch } from 'vue'
 import { format } from 'date-fns'
 import { Bar } from 'vue-chartjs'
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js'
 import MetricsCard from '../components/RenewalVault/MetricsCard.vue'
 import CoverageChart from '../components/RenewalVault/CoverageChart.vue'
 import BatchList from '../components/RenewalVault/BatchList.vue'
+import InsuranceProductModal from '../components/RenewalVault/InsuranceProductModal.vue'
 import { 
   generateMetricsData, 
   generateCoverageData, 
@@ -128,6 +139,10 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 const userName = ref('John')
 const lastLogin = ref(new Date())
 const loading = ref(false)
+
+// Modal State
+const showProductModal = ref(false)
+const selectedProductData = ref(null)
 
 // Sections Configuration
 const sections = ref([
@@ -178,6 +193,13 @@ const lobChartOptions = {
   maintainAspectRatio: false,
   plugins: {
     legend: { position: 'top' }
+  },
+  onClick: (event, elements) => {
+    if (elements.length > 0) {
+      const dataIndex = elements[0].index
+      const label = lobChartData.value.labels[dataIndex]
+      handleChartClick(label)
+    }
   }
 }
 
@@ -201,6 +223,15 @@ const handleDateRangeChange = () => {
     batchData.value = generateBatchData(selectedDateRange.value)
     loading.value = false
   }, 500)
+}
+
+const handleChartClick = (label) => {
+  selectedProduct.value = label
+  selectedProductData.value = {
+    label,
+    // Add any additional data you want to pass to the modal
+  }
+  showProductModal.value = true
 }
 
 const handleExport = (sectionId) => {
