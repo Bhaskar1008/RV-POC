@@ -1,0 +1,19 @@
+PK
+                                  [Content_Types].xml�T�N�0�#���{&�P�
+    VehicleDetails
+    RequestTypeExtractorProposal,String,MOTOR,Direct
+    RnModified,Boolean,true,Direct
+    AddOnChoice,String,COMPREHENSIVE,Direct
+    BodyType,String,SEDAN,Direct
+    CertificateNumber,String,CERT123,Direct
+    ChasisNumber,String,CHAS456,Direct
+    DateOfFirstRegistration,Date,2023-01-01,Direct
+    DateOfPurchaseRegistration,Date,2023-01-15,Direct
+    DealerOrPartnerCode,String,DLRP789,Direct
+    DepnOfClaims,Number,5,Direct
+    EngineNumber,String,ENG101,Direct
+    ExShowroomBodyPrice,Number,250000,Direct
+    ExShowroomChasisPrice,Number,150000,Direct
+    ExShowroomPrice,Number,400000,Direct
+    FleetCode,String,FLT202,Direct
+PK

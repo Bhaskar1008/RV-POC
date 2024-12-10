@@ -25,6 +25,12 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     {
+      path: '/json-mapper',
+      name: 'json-mapper',
+      component: () => import('../views/JSONMapper.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/renewal-notice',
       name: 'renewal-notice',
       component: () => import('../views/RenewalNoticeView.vue'),

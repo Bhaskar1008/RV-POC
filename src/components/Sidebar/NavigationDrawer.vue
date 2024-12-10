@@ -55,6 +55,11 @@ const navigationItems = [
     to: '/collections'
   },
   {
+    title: 'API Request Mapper',
+    icon: 'mdi-account-group',
+    to: '/json-mapper'
+  },
+  {
     title: 'Renewal Notice Generation',
     icon: 'mdi-file-document-outline',
     to: '/renewal-notice'
